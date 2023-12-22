@@ -27,7 +27,18 @@ def compute_dft_direct(input_signal: np.array):
 
     return output_sequence
 
-def generate_signal(num_points:int, max_freq:int =0):
+
+#########################--------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+def generate_signal(num_points: int, max_freq: int =0):
     """
     Generate a complex signal composed of multiple sinusoidal waves.
 
@@ -40,10 +51,7 @@ def generate_signal(num_points:int, max_freq:int =0):
     np.array: A complex signal composed of multiple sinusoidal components.
     """
     t = np.linspace(0, 1, num_points)
-    breakpoint()
-    signal = np.zeros(num_points, dtype=complex)
-    for freq in range(1, max_freq+1):
-        signal += np.exp(2j * np.pi * freq * t)
+    signal = np.sin(2 * np.pi * 5 * t) + np.sin(2 * np.pi * 10 * t) + np.cos(2 * np.pi * 20 * t) + np.sin(2 * np.pi * 50 * t)
     return signal
 
 def plot_signal_and_dft(signal, dft_result):
@@ -81,8 +89,22 @@ def plot_signal_and_dft(signal, dft_result):
 
 
 
+# Calculate fft with nympy module and compare results with my own implementation:
+def numpy_compairson(signal: list):
+    # Calculate fft with numpy module
+    fft_numpy = np.fft.fft(signal)
+    # Calculate fft with my own implementation
+    fft_my = compute_dft_direct(signal)
+    # Compare results
+    print("Numpy fft: ", fft_numpy)
+    print("My fft: ", fft_my)
+    print("Difference: ", fft_numpy - fft_my)
+    return 
 
-# Usage
+
+# Usage on console (python -i app/core/dft.py), otherwise 
+# Use this file as a module in another file
+
 if __name__ == "__main__":
     input_signal_example = np.array([0, 1, 2, 3])
     dft_result = compute_dft_direct(input_signal=input_signal_example)
@@ -91,7 +113,7 @@ if __name__ == "__main__":
     
     # Generate a more complex signal
     num_points = 1024
-    complex_signal = generate_complex_signal(num_points)
+    complex_signal = generate_signal(num_points)
 
     # Compute its DFT
     dft_of_complex_signal = compute_dft_direct(complex_signal)
